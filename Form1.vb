@@ -22,6 +22,22 @@ Public Class Form1
             Shell("cmd.exe /c" & "start Tools\droidAtScreen-1.1.jar")
         End If
     End Sub
+    Private Sub Form1_FormClosing(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+        Dim myProcesses() As Process = Process.GetProcesses
+        ' If (MessageBox.Show("Close?", "", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No) Then
+        '     e.Cancel = True
+        ' End If
+        For Each p As Process In myProcesses
+            If p.MainWindowTitle.Contains("Droid@Screen") Then
+                Try
+                    p.Kill()
+                Catch ex As Exception
+                    MessageBox.Show(ex.Message)
+                End Try
+            End If
+        Next
+
+    End Sub
 
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click
         Select Case ComboBox1.Text
@@ -300,5 +316,10 @@ Public Class Form1
 
     Private Sub Version010ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles Version010ToolStripMenuItem.Click
         System.Diagnostics.Process.Start("https://github.com/kjanku1/WindowsApplication1/commits/master")
+    End Sub
+
+    Private Sub startMacro_Click(sender As Object, e As EventArgs) Handles startMacro.Click
+        macro.Show()
+        Me.Hide()
     End Sub
 End Class
